@@ -1,0 +1,16 @@
+*.so*
+*.o*
+.DS_Store
+
+*_data
+*_data_*
+a.out
+*.npy
+*.mexmaci64
+*.m~
+*.pdf
+
+/*.egg-info/
+/build/
+/tmp/
+/dist/
