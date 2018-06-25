@@ -53,46 +53,19 @@ k4 = []
 for meas in range(1000):
     edges = A.get_new_edge_list()
     ks = get_degrees_from_edge_list(N,edges).tolist()
-    #k1.extend( ks.tolist())
-    G = nx.Graph()
-    G.add_nodes_from(range(N))
-    G.add_edges_from(edges)
-
-    ks = [ d[1] for d in list(G.degree())]
     k1.extend(ks)
 
     edges = numpymethod.get_new_edge_list()
     ks = get_degrees_from_edge_list(N,edges).tolist()
-    #k1.extend( ks.tolist())
-    G = nx.Graph()
-    G.add_nodes_from(range(N))
-    G.add_edges_from(edges)
-
-    ks = [ d[1] for d in list(G.degree())]
     k2.extend(ks)
 
     edges = get_edge_list(N,numpymethod.b,numpymethod.t,numpymethod.parameters)
     ks = get_degrees_from_edge_list(N,edges).tolist()
-    #k1.extend( ks.tolist())
-    G = nx.Graph()
-    G.add_nodes_from(range(N))
-    G.add_edges_from(edges)
-
-    ks = [ d[1] for d in list(G.degree())]
     k3.extend(ks)
 
     edges = get_fast_edge_list(N,numpymethod.b,numpymethod.t,numpymethod.parameters)
     ks = get_degrees_from_edge_list(N,edges).tolist()
-    #k1.extend( ks.tolist())
-    G = nx.Graph()
-    G.add_nodes_from(range(N))
-    G.add_edges_from(edges)
-
-    ks = [ d[1] for d in list(G.degree())]
     k4.extend(ks)
-
-    #edges = np_edges[meas]
-    #k2.extend(ks)
 
 pl.hist(k1,bins=np.arange(max(k1)+1),histtype='step')
 pl.hist(k2,bins=np.arange(max(k1)+1),histtype='step')
