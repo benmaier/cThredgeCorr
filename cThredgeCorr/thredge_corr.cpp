@@ -112,6 +112,8 @@ vector < pair < size_t, size_t > > get_fast_edge_list( size_t N,
                                                 )
 {
 
+    //cout << "Greetings! You called the pointer method!" << endl;
+
     assert(N>=3);
     assert(beta >= 0.0 && beta < 0.5);   
     assert(parameters.size() == 3);

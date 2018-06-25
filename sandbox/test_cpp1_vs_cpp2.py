@@ -11,42 +11,30 @@ import matplotlib.pyplot as pl
 
 
 from time import time
-N = 150
+N = 1000
 
 N_meas = 10
 
 
 start = time()
-A = ThredgeCorrGraph(N,0.49,.5)
-[ A.get_new_edge_list() for n in range(N_meas) ]
+numpymethod = FastThredgeCorrGraph(N,0.49,.5)
+[ get_edge_list(N,0.49,numpymethod.t,numpymethod.parameters) for n in range(N_meas) ]
 end = time()
 
-print("std method; N =", N, '; generating ', N_meas, 'networks took', end-start, 'seconds')
+print("cpp fast method; N =", N, '; generating ', N_meas, 'networks took', end-start, 'seconds')
 
 start = time()
 numpymethod = FastThredgeCorrGraph(N,0.49,.5)
-[ numpymethod.get_new_edge_list() for n in range(N_meas) ]
+[ get_fast_edge_list(N,0.49,numpymethod.t,numpymethod.parameters) for n in range(N_meas) ]
 end = time()
 
-print("py fast method; N =", N, '; generating ', N_meas, 'networks took', end-start, 'seconds')
-
-start = time()
-numpymethod = FastThredgeCorrGraph(N,0.49,.5)
-[ get_edge_list(N,0.49,numpymethod.t,numpymethod.parameters) for n in range(N_meas*100) ]
-end = time()
-
-print("cpp fast method; N =", N, '; generating ', N_meas*100, 'networks took', end-start, 'seconds')
-
-start = time()
-numpymethod = FastThredgeCorrGraph(N,0.49,.5)
-[ get_fast_edge_list(N,0.49,numpymethod.t,numpymethod.parameters) for n in range(N_meas*100) ]
-end = time()
-
-print("cpp fast fast method; N =", N, '; generating ', N_meas*100, 'networks took', end-start, 'seconds')
+print("cpp fast fast method; N =", N, '; generating ', N_meas, 'networks took', end-start, 'seconds')
 k1 = []
 k2 = []
 k3 = []
 k4 = []
+import sys
+sys.exit(0)
 
 #np_edges = T.get_n_edge_lists(500)
 
