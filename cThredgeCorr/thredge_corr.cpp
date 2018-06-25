@@ -103,3 +103,83 @@ vector < pair < size_t, size_t > > get_edge_list( size_t N,
     }
     return edges;
 }
+
+vector < pair < size_t, size_t > > get_fast_edge_list( size_t N, 
+                                                  double beta, 
+                                                  double t,
+                                                  vector < double > parameters,
+                                                  double seed
+                                                )
+{
+
+    assert(N>=3);
+    assert(beta >= 0.0 && beta < 0.5);   
+    assert(parameters.size() == 3);
+    double a = parameters[0];
+    double b = parameters[1];
+    double c = parameters[2];
+    size_t m = N * (N - 1) / 2;
+
+    mt19937_64 generator;
+    if (seed == 0)
+        randomly_seed_engine(generator);
+    else
+        generator.seed(0);
+
+    normal_distribution<double> randn(0.0,1.0);
+
+    vector < double > Y;
+
+    double s = 0.0;
+    for(size_t e = 0; e<m; ++e)
+    {
+        double r = randn(generator);
+        Y.push_back(r);
+        s += r;
+    }
+
+    vector < double > w;
+    auto it_Yi = Y.begin();
+    // fill for j first
+    for(size_t i = 0; i<N; ++i)
+    {
+        double this_w = 0.0;
+        for(size_t j = 0; j<i; ++j)
+            this_w += Y[edge_index(N,j,i)];
+        for(size_t j = i+1; j<N; ++j)
+        {
+            this_w += *it_Yi;
+            ++it_Yi;
+        }
+        w.push_back(this_w);
+    }
+
+    vector <double> X;
+
+    auto it_Y = Y.begin();
+    for(size_t e = 0; e<m; ++e)
+    {
+        double x = (a - 2*b + c) * (*it_Y) + c*s;
+        X.push_back(x);
+        ++it_Y;
+    }
+
+    vector < pair < size_t, size_t > > edges;
+    auto it_x = X.begin();
+    auto it_wi = w.begin();
+    for(size_t i = 0; i<N-1; ++i)
+    {
+        auto it_wj = it_wi+1;        
+        for(size_t j = i+1; j<N; ++j)
+        {
+            *it_x += (b-c) * (*it_wi + *it_wj);
+            if (*it_x >= t)
+                edges.push_back(make_pair(i,j));
+
+            ++it_x;
+            ++it_wj;
+        }
+        ++it_wi;
+    }
+    return edges;
+}

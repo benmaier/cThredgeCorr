@@ -54,4 +54,12 @@ PYBIND11_MODULE(cThredgeCorr, m) {
             py::arg("parameters"),
             py::arg("seed") = 0
             );
+
+    m.def("get_fast_edge_list", &get_fast_edge_list, R"pbdoc(Get an edge list for the thresholded correlated edge weight mdoel. RNG is non-deterministically initialized if seed = 0.)pbdoc",
+            py::arg("N"),
+            py::arg("covariance"),
+            py::arg("threshold"),
+            py::arg("parameters"),
+            py::arg("seed") = 0
+            );
 }

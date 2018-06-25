@@ -43,4 +43,12 @@ vector < pair < size_t, size_t > > get_edge_list( size_t N,
                                                   vector < double > parameters,
                                                   double seed
                                                 );
+
+vector < pair < size_t, size_t > > get_fast_edge_list( 
+                                                  size_t N, 
+                                                  double beta, 
+                                                  double t,
+                                                  vector < double > parameters,
+                                                  double seed
+                                                );
 #endif
