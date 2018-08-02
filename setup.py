@@ -84,8 +84,8 @@ class BuildExt(build_ext):
 
 setup(
     name='cThredgeCorr',
-    version='0.0.1',
-    author='Benjamin F. Maier',
+    version='0.0.2',
+    author='Benjamin F. Maier, George Cantwell',
     author_email='bfmaier@physik.hu-berlin.de',
     url='https://github.com/benmaier/cThredgeCorr',
     license='BSD',

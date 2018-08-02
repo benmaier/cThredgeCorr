@@ -19,19 +19,6 @@ N_meas = 10
 numpymethod = FastThredgeCorrGraph(N,0.49,.5)
 
 start = time()
-A = ThredgeCorrGraph(N,0.49,.5)
-[ A.get_new_edge_list() for n in range(N_meas) ]
-end = time()
-
-print("std method; N =", N, '; generating ', N_meas, 'networks took', end-start, 'seconds')
-
-start = time()
-[ numpymethod.get_new_edge_list() for n in range(N_meas) ]
-end = time()
-
-print("py fast method; N =", N, '; generating ', N_meas, 'networks took', end-start, 'seconds')
-
-start = time()
 [ get_edge_list(N,0.49,numpymethod.t,numpymethod.parameters) for n in range(N_meas*100) ]
 end = time()
 
@@ -50,13 +37,6 @@ k4 = []
 #np_edges = T.get_n_edge_lists(500)
 
 for meas in range(1000):
-    edges = A.get_new_edge_list()
-    ks = get_degrees_from_edge_list(N,edges).tolist()
-    k1.extend(ks)
-
-    edges = numpymethod.get_new_edge_list()
-    ks = get_degrees_from_edge_list(N,edges).tolist()
-    k2.extend(ks)
 
     edges = get_edge_list(N,numpymethod.b,numpymethod.t,numpymethod.parameters)
     ks = get_degrees_from_edge_list(N,edges).tolist()
@@ -66,10 +46,8 @@ for meas in range(1000):
     ks = get_degrees_from_edge_list(N,edges).tolist()
     k4.extend(ks)
 
-pl.hist(k1,bins=np.arange(max(k1)+1),histtype='step')
-pl.hist(k2,bins=np.arange(max(k1)+1),histtype='step')
-pl.hist(k3,bins=np.arange(max(k1)+1),histtype='step')
-pl.hist(k4,bins=np.arange(max(k1)+1),histtype='step')
+pl.hist(k3,bins=np.arange(max(k3)+1),histtype='step')
+pl.hist(k4,bins=np.arange(max(k3)+1),histtype='step')
 pl.xscale('log')
 pl.yscale('log')
 

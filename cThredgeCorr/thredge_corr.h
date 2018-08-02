@@ -37,18 +37,24 @@ size_t edge_index(size_t const &N,
                   size_t const &j
                   );
 
-vector < pair < size_t, size_t > > get_edge_list( size_t N, 
-                                                  double beta, 
+vector < pair < size_t, size_t > > get_slow_edge_list( size_t N, 
+                                                  double rho, 
                                                   double t,
                                                   vector < double > parameters,
                                                   double seed
                                                 );
 
-vector < pair < size_t, size_t > > get_fast_edge_list( 
+vector < pair < size_t, size_t > > get_edge_list( 
                                                   size_t N, 
-                                                  double beta, 
+                                                  double rho, 
                                                   double t,
                                                   vector < double > parameters,
+                                                  double seed
+                                                );
+
+vector < pair < size_t, size_t > > get_fast_edge_list( size_t N, 
+                                                  double rho, 
+                                                  double t,
                                                   double seed
                                                 );
 #endif

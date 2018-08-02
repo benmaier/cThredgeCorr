@@ -37,8 +37,8 @@ size_t edge_index(size_t const &N,
     return i*N + j - (i+2)*(i+1) / 2;
 }
 
-vector < pair < size_t, size_t > > get_edge_list( size_t N, 
-                                                  double beta, 
+vector < pair < size_t, size_t > > get_slow_edge_list( size_t N, 
+                                                  double rho, 
                                                   double t,
                                                   vector < double > parameters,
                                                   double seed
@@ -46,7 +46,7 @@ vector < pair < size_t, size_t > > get_edge_list( size_t N,
 {
 
     assert(N>=3);
-    assert(beta >= 0.0 && beta < 0.5);   
+    assert(rho >= 0.0 && rho < 0.5);   
     assert(parameters.size() == 3);
     double a = parameters[0];
     double b = parameters[1];
@@ -104,8 +104,8 @@ vector < pair < size_t, size_t > > get_edge_list( size_t N,
     return edges;
 }
 
-vector < pair < size_t, size_t > > get_fast_edge_list( size_t N, 
-                                                  double beta, 
+vector < pair < size_t, size_t > > get_edge_list( size_t N, 
+                                                  double rho, 
                                                   double t,
                                                   vector < double > parameters,
                                                   double seed
@@ -115,7 +115,7 @@ vector < pair < size_t, size_t > > get_fast_edge_list( size_t N,
     //cout << "Greetings! You called the pointer method!" << endl;
 
     assert(N>=3);
-    assert(beta >= 0.0 && beta < 0.5);   
+    assert(rho >= 0.0 && rho < 0.5);   
     assert(parameters.size() == 3);
     double a = parameters[0];
     double b = parameters[1];
@@ -183,5 +183,58 @@ vector < pair < size_t, size_t > > get_fast_edge_list( size_t N,
         }
         ++it_wi;
     }
+    return edges;
+}
+
+vector < pair < size_t, size_t > > get_fast_edge_list( size_t N, 
+                                                  double rho, 
+                                                  double t,
+                                                  double seed
+                                                )
+{
+
+    //cout << "Greetings! You called the pointer method!" << endl;
+
+    assert(N>=3);
+    assert(rho >= 0.0 && rho < 0.5);
+    size_t m = N * (N - 1) / 2;
+
+    double sqrt_rho = sqrt(rho);
+    double sqrt_1_m_2rho = sqrt(1.0-2.0*rho);
+
+    mt19937_64 generator;
+    if (seed == 0)
+        randomly_seed_engine(generator);
+    else
+        generator.seed(0);
+
+    normal_distribution<double> randn(0.0,1.0);
+
+    vector < double > Z;
+
+    for(size_t n = 0; n<N; ++n)
+    {
+        double z = randn(generator);
+        Z.push_back(z);
+    }
+
+    vector < pair < size_t, size_t > > edges;
+
+    auto zi = Z.begin();
+
+    for(size_t i = 0; i < N-1; ++i)
+    {
+        auto zj = zi+1;
+        for(size_t j = i+1; j < N; ++j)
+        {
+            double y = randn(generator);
+            if (y > (t - sqrt_rho*((*zi)+(*zj))) / sqrt_1_m_2rho)
+                edges.push_back(make_pair(i, j));
+
+            ++zj;
+        }
+        ++zi;
+    }
+
     return edges;
 }
