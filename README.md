@@ -25,7 +25,7 @@ from ThredgeCorr import FastThredgeCorrGraph
 from cThredgeCorr import get_fast_edge_list
 
 F = FastThredgeCorrGraph(N=100,covariance=0.3,mean_degree=3)
-edge_list = get_edge_list(F.N, F.b, F.t)
+edge_list = get_fast_edge_list(F.N, F.b, F.t)
 ```
 
 ### Get an adjacency matrix and a degree sequence
@@ -35,7 +35,7 @@ from ThredgeCorr import FastThredgeCorrGraph, get_adjacency_matrix_from_edge_lis
 from cThredgeCorr import get_fast_edge_list
 
 F = FastThredgeCorrGraph(N=100,covariance=0.3,mean_degree=3)
-edge_list = get_edge_list(F.N, F.b, F.t)
+edge_list = get_fast_edge_list(F.N, F.b, F.t)
 A = get_adjacency_matrix_from_edge_list(edge_list, sparse=False)
 k = A.sum(axis=1).flatten()
 ```
