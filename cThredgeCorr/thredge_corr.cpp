@@ -196,7 +196,7 @@ vector < pair < size_t, size_t > > get_fast_edge_list( size_t N,
     //cout << "Greetings! You called the pointer method!" << endl;
 
     assert(N>=3);
-    assert(rho >= 0.0 && rho < 0.5);
+    assert(rho >= 0.0 && rho <= 0.5);
     size_t m = N * (N - 1) / 2;
 
     double sqrt_rho = sqrt(rho);
@@ -227,9 +227,17 @@ vector < pair < size_t, size_t > > get_fast_edge_list( size_t N,
         auto zj = zi+1;
         for(size_t j = i+1; j < N; ++j)
         {
-            double y = randn(generator);
-            if (y > (t - sqrt_rho*((*zi)+(*zj))) / sqrt_1_m_2rho)
-                edges.push_back(make_pair(i, j));
+
+            if (rho < 0.5)
+            {
+                double y = randn(generator);
+                if (y > (t - sqrt_rho*((*zi)+(*zj))) / sqrt_1_m_2rho)
+                    edges.push_back(make_pair(i, j));
+            } else if (rho == 0.5)
+            {
+                if (sqrt_rho*((*zi)+(*zj)) > t)
+                    edges.push_back(make_pair(i, j));
+            }
 
             ++zj;
         }
